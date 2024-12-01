@@ -272,10 +272,18 @@ change_task_sched "swapd" ""
 change_task_cpuset "compactd" "system-background"
 change_task_sched "compactd" ""
 
+#CuDaemon -config [config] -mode [mode] -log [log] --start
+"${BASE_DIR}/CuDaemon" \
+-config "${BASE_DIR}/config.json" \
+-mode "/sdcard/Android/ct/cur_mode.txt" \
+-log "/sdcard/Android/ct/scheduler.log" \
+--start
+
+
 chmod 777 "${BASE_DIR}/install.sh"
 "${BASE_DIR}/install.sh"
 chmod 777 "${BASE_DIR}/../binaries/CuDaemon"
-"${BASE_DIR}/../binaries/CuDaemon" -R "${BASE_DIR}/../binaries/config.json" "${BASE_DIR}/../binaries/mode.txt" "${BASE_DIR}/../binaries/log.txt"
+"${BASE_DIR}/../binaries/CuDaemon" -config "${BASE_DIR}/../binaries/config.json" -mode "${BASE_DIR}/../binaries/mode.txt" -log "${BASE_DIR}/../binaries/log.txt" --start
 
 exit 0
 

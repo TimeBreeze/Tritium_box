@@ -1,18 +1,18 @@
 package cn.nightrainmilkyway.tritium
 
+import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.graphics.drawable.Icon
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
-import android.content.Intent
-import android.content.IntentFilter
-import android.content.BroadcastReceiver
-import android.annotation.SuppressLint
-import android.content.ComponentName
-import android.content.Context
-import android.content.pm.PackageManager
-import android.graphics.drawable.Icon
 import android.util.Log
+import androidx.annotation.RequiresApi
 import java.io.File
 import java.io.IOException
 
@@ -25,6 +25,7 @@ class ModeTileService : TileService() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onStartListening() {
         super.onStartListening()
         updateTile()

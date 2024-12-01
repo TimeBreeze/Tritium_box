@@ -15,7 +15,6 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.core.app.NotificationCompat
 
 class AccessibilityService : AccessibilityService() {
-
     private val handler = Handler(Looper.getMainLooper())
     private val checkInterval: Long = 60000
 
