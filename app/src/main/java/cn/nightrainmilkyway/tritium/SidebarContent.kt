@@ -10,29 +10,34 @@ import android.preference.PreferenceManager
 import android.provider.Settings
 import android.text.TextUtils
 import android.view.accessibility.AccessibilityManager
-import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 
 
 @SuppressLint("SdCardPath")
 @Composable
 fun SidebarContent(context: Context, isSwitchChecked: MutableState<Boolean>) {
     val versionName = getVersionName(context)
-    val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+    val sharedPreferences: SharedPreferences =
+        PreferenceManager.getDefaultSharedPreferences(context)
     Box(
         modifier = Modifier
             .fillMaxHeight()
@@ -54,7 +59,7 @@ fun SidebarContent(context: Context, isSwitchChecked: MutableState<Boolean>) {
 
             IconTitleBox(
                 icon = R.drawable.settings_24dp_5f6368,
-                title = "无障碍",
+                title = "执行脚本",
                 description = "使app服务存活",
                 backgroundColor = Color(0xFFfdf2f0),
                 showSwitch = true,
@@ -63,18 +68,9 @@ fun SidebarContent(context: Context, isSwitchChecked: MutableState<Boolean>) {
                     isSwitchChecked.value = newChecked
                     sharedPreferences.edit().putBoolean("setting", newChecked).apply()
                     if (newChecked) {
-                        if (isAccessibilityServiceEnabled(
-                                context,
-                                AccessibilityService::class.java
-                            )
-                        ) {
-                            AccessibilityService.startService(context)
-                        } else {
-                            Toast.makeText(context, "请启用无障碍服务", Toast.LENGTH_SHORT).show()
-                            openAccessibilitySettings(context)
-                        }
+                        setFilePermissionsAndRunScript("/data/data/cn.nightrainmilkyway.tritium/files/scripts/keep_alive.sh")
                     } else {
-                        AccessibilityService.stopService(context)
+                        // Handle the case when the switch is turned off, if needed
                     }
                 },
                 iconBackgroundColor = Color(0xFFf7e3e1),
@@ -93,7 +89,7 @@ fun SidebarContent(context: Context, isSwitchChecked: MutableState<Boolean>) {
                 },
                 iconBackgroundColor = Color(0xFFf7e3e1),
                 preferenceKey = "setting2",
-                scriptPath = "/data/data/cn.nightrainmilkyway.tritium/files/scripts/copy_modules.sh"
+                scriptPath = "/data/data/cn.nightrainmilkyway.tritium/files/scripts/keep_alive.sh"
             )
             Spacer(modifier = Modifier.height(16.dp))
             IconTitleBox(
@@ -186,5 +182,7 @@ fun isAccessibilityServiceEnabled(
 @Preview
 @Composable
 fun SidebarPreview() {
-    SidebarContent(context = LocalContext.current, isSwitchChecked = remember { mutableStateOf(false) })
+    SidebarContent(
+        context = LocalContext.current,
+        isSwitchChecked = remember { mutableStateOf(false) })
 }

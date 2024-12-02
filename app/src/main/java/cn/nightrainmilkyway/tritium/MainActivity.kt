@@ -2,7 +2,6 @@ package cn.nightrainmilkyway.tritium
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.content.res.AssetManager
 import android.os.Bundle
 import android.widget.Toast
@@ -10,13 +9,35 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.*
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,7 +55,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import cn.nightrainmilkyway.tritium.ui.theme.TritiumTheme
 import kotlinx.coroutines.launch
-import java.io.*
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.io.OutputStream
 
 class MainActivity : ComponentActivity() {
     private val isSwitchChecked = mutableStateOf(false)
@@ -114,10 +141,10 @@ class MainActivity : ComponentActivity() {
         setFilePermissionsAndRunScript("/data/data/cn.nightrainmilkyway.tritium/files/scripts/init.sh")
     }
 
-    private fun startAccessibilityService() {
-        val intent = Intent(this, AccessibilityService::class.java)
-        startService(intent)
-    }
+//    private fun startAccessibilityService() {
+//        val intent = Intent(this, AccessibilityService::class.java)
+//        startService(intent)
+//    }
 
     fun isRooted(): Boolean {
         return try {
